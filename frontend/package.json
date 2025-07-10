@@ -1,0 +1,29 @@
+{
+  "name": "meetingbooksys-frontend",
+  "version": "1.0.0",
+  "description": "会议室在线预订系统前端桌面端",
+  "author": "会议室预订系统开发团队",
+  "main": "src/main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "electron:dev": "electron .",
+    "electron:build": "npm run build && cp -r dist build_output && rm -rf build_output/mac-arm64 build_output/win-unpacked build_output/linux-unpacked && electron-builder",
+    "electron:build:win": "npm run build && cp -r dist build_output && rm -rf build_output/win-unpacked && electron-builder --win",
+    "electron:build:mac": "npm run build && cp -r dist build_output && rm -rf build_output/mac-arm64 && ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/ npm_config_registry=https://registry.npmmirror.com electron-builder --mac",
+    "electron:build:linux": "npm run build && cp -r dist build_output && rm -rf build_output/linux-unpacked && electron-builder --linux"
+  },
+  "dependencies": {
+    "vue": "^3.4.21",
+    "vue-router": "^4.3.0",
+    "element-plus": "^2.7.5",
+    "axios": "^1.7.2"
+  },
+  "devDependencies": {
+    "electron": "^19.1.9",
+    "electron-builder": "^23.6.0",
+    "vite": "^5.2.0",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "vue-tsc": "^1.8.27"
+  }
+}
