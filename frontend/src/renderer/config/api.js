@@ -1,9 +1,41 @@
 // API 配置
 export const API_CONFIG = {
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001',
+  get baseURL() {
+    // 优先使用用户设置，然后是环境变量，最后是默认值
+    const userSettings = JSON.parse(localStorage.getItem('apiSettings') || '{}');
+    if (userSettings.host && userSettings.port) {
+      return `http://${userSettings.host}:${userSettings.port}`;
+    }
+    return import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
+  },
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json'
+  }
+};
+
+// 设置管理
+export const SETTINGS = {
+  // 获取当前设置
+  get() {
+    const defaultSettings = {
+      host: import.meta.env.VITE_DEFAULT_HOST || 'localhost',
+      port: import.meta.env.VITE_DEFAULT_PORT || '3001'
+    };
+    const userSettings = JSON.parse(localStorage.getItem('apiSettings') || '{}');
+    return { ...defaultSettings, ...userSettings };
+  },
+  
+  // 保存设置
+  save(settings) {
+    localStorage.setItem('apiSettings', JSON.stringify(settings));
+    console.log('API设置已保存:', settings);
+  },
+  
+  // 重置设置
+  reset() {
+    localStorage.removeItem('apiSettings');
+    console.log('API设置已重置');
   }
 };
 
